@@ -17,7 +17,6 @@ class Solution:
             if i>=len(candidates):
                 return
             subset.append(candidates[i])
-            dfs(i+1,sum_set+candidates[i])
             dfs(i,sum_set+candidates[i])
 
             subset.pop()
