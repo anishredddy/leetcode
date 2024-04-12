@@ -13,8 +13,6 @@ class Solution:
                 inOrder(node.left)
                 res.append(node.val)
                 inOrder(node.right)
-        if root:
-            inOrder(root)
-        else:
-            return []
+        inOrder(root)
+        
         return res
