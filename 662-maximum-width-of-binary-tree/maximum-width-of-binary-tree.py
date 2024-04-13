@@ -16,12 +16,10 @@ class Solution:
             left,right=curr[0][0],curr[-1][0]
             res=max(res,right-left+1)
             print(right-left+1)
-            nxt=deque()
-            while curr:
+            for i in range(len(curr)):
                 pos,node=curr.popleft()
                 if node.left:
-                    nxt.append([2*pos,node.left])
+                    curr.append([2*pos,node.left])
                 if node.right:
-                    nxt.append([2*pos+1,node.right])
-            curr=nxt
+                    curr.append([2*pos+1,node.right])
         return res
