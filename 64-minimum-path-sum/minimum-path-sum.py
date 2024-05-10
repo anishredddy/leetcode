@@ -1,22 +1,19 @@
 class Solution:
     def minPathSum(self, grid: List[List[int]]) -> int:
-        mem={}
+        if not grid:
+            return 0
 
-        def dfs(i,j):
-            if (i,j) in mem:
-                return mem[(i,j)]
-            
-            if i==len(grid)-1 and j==len(grid[0])-1:
-                return grid[i][j]
-            
-            left=right=float('inf')
+        m=len(grid)
+        n=len(grid[0])
 
-            if i+1<len(grid):
-                left=grid[i][j]+dfs(i+1,j)
-            if j+1<len(grid[0]):
-                right=grid[i][j]+dfs(i,j+1)
-            
-            mem[(i,j)]=min(left,right)
-            
-            return mem[(i,j)]
-        return dfs(0,0)
+        for i in range(1,m):
+            grid[i][0]+=grid[i-1][0]
+        
+        for j in range(1,n):
+            grid[0][j]+=grid[0][j-1]
+
+        for i in range(1,m):
+            for j in range(1,n):
+                grid[i][j]+=min(grid[i-1][j],grid[i][j-1])
+        
+        return grid[-1][-1]
