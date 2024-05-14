@@ -7,3 +7,8 @@ class Solution:
             if n - i <= v:
                 return n - i
         return 0
+
+        # number of elements on the right side < value of element
+        # 0 1 3 5 6
+
+        
