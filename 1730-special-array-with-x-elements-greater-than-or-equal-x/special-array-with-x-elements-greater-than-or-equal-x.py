@@ -1,17 +1,15 @@
 class Solution:
     def specialArray(self, nums: List[int]) -> int:
-        nums.sort()
-
-        n=len(nums)
-        ind=0
-        current=nums[ind]
-        for i in range(1,n+1):
-            while i>current:
-                ind+=1
-                if ind in range(n):
-                    current=nums[ind]
-                else:
-                    return -1
-            if len(nums)-ind==i:
+        N = len(nums)
+        
+        freq = defaultdict(int)
+        for num in nums:
+            freq[min(N, num)] += 1
+        
+        count = 0
+        for i in range(N, 0, -1):
+            count += freq[i]
+            if i == count:
                 return i
+        
         return -1
