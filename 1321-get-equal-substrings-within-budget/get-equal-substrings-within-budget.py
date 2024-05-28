@@ -1,20 +1,13 @@
 class Solution:
     def equalSubstring(self, s: str, t: str, maxCost: int) -> int:
         
-        count=[]
+        curr=left=0
+        res=0
 
-        for i in range(len(s)):
-            count.append(abs(ord(s[i])-ord(t[i])))
-        
-        left=right=0
-        curr=res=0
-        while right<len(s):
-            if(count[right]+curr)<=maxCost:
-                curr+=count[right]
-                right+=1
-            else:
-                curr-=count[left]
+        for right in range(len(s)):
+            curr+=abs(ord(s[right])-ord(t[right]))
+            while curr>maxCost:
+                curr-=abs(ord(s[left])-ord(t[left]))
                 left+=1
-            res=max(res,right-left)
+            res=max(res,right-left+1)
         return res
-    # 1 1 1 2
