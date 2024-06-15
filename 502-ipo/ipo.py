@@ -12,7 +12,6 @@ class Solution:
         heap=[]
         i=0
         while k>0:
-            print("current ",k,w)
             while i<len(capital) and projects[i][0]<=w:
                 heapq.heappush(heap,-projects[i][1])
                 i+=1
