@@ -14,8 +14,6 @@ class Solution:
         # 11
         # mathematically if we want to increase range [0,n] we should add a number less than or equal to n
         # then new range will be n+k
-        nums.sort()
-        #nlogn
         r=0
         pointer=0
         res=0
