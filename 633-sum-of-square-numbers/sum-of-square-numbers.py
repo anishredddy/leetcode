@@ -4,7 +4,6 @@ class Solution:
         right=int(sqrt(c))
 
         while left<=right:
-            print(left,right)
             current_sum=left*left+right*right
             if current_sum<c:
                 left+=1
