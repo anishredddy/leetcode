@@ -1,42 +1,36 @@
 class Solution:
     def longestSubarray(self, nums: List[int], limit: int) -> int:
+        # 4 2 3 5
+
         #we can be greedy with our approach
         #intuition 
         # if the difference between the largest and smallest element is less than limit
         # it is guarenteed that the entire subarray difference will be less than limit
 
-        #how to do?
-        
-        #approch 1:
 
-        #maintain 2 heaps, max heap and min heap?
+        #lets try to use a deque , cuz retrieval and adding time is O(1)
 
-        # how to implement this?
-        
-        #keep adding elements in max heap and min heap, check untill condition max-min<=limit
+        min_deque=deque()
+        max_deque=deque()
 
-        #how to deal with when we break the condition? remove max or min?
-
-        #since we are checking continuos , pop the first element , max or min..?
-
-        min_heap=[]
-        max_heap=[]
-
-        left=0
-        res=0
+        left=res=0
 
         for right in range(len(nums)):
-            heapq.heappush(min_heap,(nums[right],right))
-            heapq.heappush(max_heap,(-nums[right],right))
+            while max_deque and max_deque[-1]<nums[right]:
+                max_deque.pop()
+            max_deque.append(nums[right])
 
-            while -max_heap[0][0]-min_heap[0][0]>limit:
-                left=min(min_heap[0][1],max_heap[0][1])+1
+            while min_deque and min_deque[-1]>nums[right]:
+                min_deque.pop()
+            min_deque.append(nums[right])
 
-                while max_heap[0][1]<left:
-                    heapq.heappop(max_heap)
-
-                
-                while min_heap[0][1]<left:
-                    heapq.heappop(min_heap)
+            while max_deque[0]-min_deque[0]>limit:
+                if max_deque[0] == nums[left]:
+                    max_deque.popleft()
+                if min_deque[0] == nums[left]:
+                    min_deque.popleft()
+                left+=1
             res=max(res,right-left+1)
         return res
+
+
