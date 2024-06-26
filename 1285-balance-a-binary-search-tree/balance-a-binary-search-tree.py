@@ -6,26 +6,28 @@
 #         self.right = right
 class Solution:
     def balanceBST(self, root: TreeNode) -> TreeNode:
-        nodes=[]
-        
-        def inorder(node):
-            if node is None:
-                return 
-            inorder(node.left)
-            nodes.append(node.val)
-            inorder(node.right)
-        inorder(root)
+        # Helper function to perform inorder traversal and collect values in a list.
+        def inorder_traversal(node):
+            if node is None:  # Base case: If node is None, return.
+                return
+            inorder_traversal(node.left)  # Recurse on left subtree.
+            node_values.append(node.val)  # Append the value of the current node.
+            inorder_traversal(node.right)  # Recurse on right subtree.
 
-        #inorder list is done
-
-        def build_avl(nodes):
-            if len(nodes)==0:
+        # Helper function to build a balanced BST given a sorted value list.
+        def build_balanced_bst(start, end):
+            if start > end:  # If starting index is greater than ending, subtree is empty.
                 return None
-            mid=len(nodes)//2
-            node=TreeNode(nodes[mid])
-            node.left=build_avl(nodes[:mid])
-            node.right=build_avl(nodes[mid+1:])
+          
+            mid = (start + end) // 2  # Compute the middle index. 
+            node = TreeNode(node_values[mid])  # Create a node with the middle value.
+          
+            # Recursively build left and right subtrees using the split lists.
+            node.left = build_balanced_bst(start, mid - 1)
+            node.right = build_balanced_bst(mid + 1, end)
+            return node  # Return the newly created node.
 
-            return node
-        
-        return build_avl(nodes)
+        node_values = []  # Initialize an empty list to store the tree node values.
+        inorder_traversal(root)  # Fill the node_values list with values from the BST.
+        # Build and return a balanced BST using the list of values.
+        return build_balanced_bst(0, len(node_values) - 1)
