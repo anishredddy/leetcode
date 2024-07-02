@@ -3,7 +3,6 @@ class Solution:
         d=defaultdict(int)
         for num in nums1:
             d[num]+=1
-        print(d)
         
         res=[]
         for num in nums2:
