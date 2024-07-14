@@ -1,55 +1,92 @@
 class Solution:
     def countOfAtoms(self, formula: str) -> str:
-        stack=[]
-        i=0
-        while i<len(formula):
-            if formula[i]==")":
-                count=""
-                while i+1<len(formula) and formula[i+1].isnumeric():
-                    count+=formula[i+1]
-                    i+=1
-                if count=="":
-                    count=1
+        # Length of the formula
+        n = len(formula)
+
+        # Current index. It should be global as needs
+        # to be updated in the recursive function
+        self.index = 0
+
+        # Recursively parse the formula
+        def parse_formula():
+            # Local variable
+            curr_map = defaultdict(int)
+            curr_atom = ""
+            curr_count = ""
+
+            # Iterate until the end of the formula
+            while self.index < n:
+                # UPPERCASE LETTER
+                if formula[self.index].isupper():
+                    # Save the previous atom and count
+                    if curr_atom:
+                        if curr_count == "":
+                            curr_map[curr_atom] += 1
+                        else:
+                            curr_map[curr_atom] += int(curr_count)
+
+                    curr_atom = formula[self.index]
+                    curr_count = ""
+                    self.index += 1
+
+                # lowercase letter
+                elif formula[self.index].islower():
+                    curr_atom += formula[self.index]
+                    self.index += 1
+
+                # Digit. Concatenate the count
+                elif formula[self.index].isdigit():
+                    curr_count += formula[self.index]
+                    self.index += 1
+
+                # Left Parenthesis
+                elif formula[self.index] == "(":
+                    self.index += 1
+                    nested_map = parse_formula()
+                    for atom in nested_map:
+                        curr_map[atom] += nested_map[atom]
+
+                # Right Parenthesis
+                elif formula[self.index] == ")":
+                    # Save the last atom and count of nested formula
+                    if curr_atom:
+                        if curr_count == "":
+                            curr_map[curr_atom] += 1
+                        else:
+                            curr_map[curr_atom] += int(curr_count)
+
+                    self.index += 1
+                    multiplier = ""
+                    while self.index < n and formula[self.index].isdigit():
+                        multiplier += formula[self.index]
+                        self.index += 1
+                    if multiplier:
+                        multiplier = int(multiplier)
+                        for atom in curr_map:
+                            curr_map[atom] *= multiplier
+
+                    return curr_map
+
+            # Save the last atom and count
+            if curr_atom:
+                if curr_count == "":
+                    curr_map[curr_atom] += 1
                 else:
-                    count=int(count)
-                #now get string from stack
-                s=""
-                while stack:
-                    char=stack.pop()
-                    if char=="(":
-                        break
-                    s=char+s
+                    curr_map[curr_atom] += int(curr_count)
 
-                stack.append(s*count)
-            else:
-                stack.append(formula[i])
-            i+=1
-        
-        formula="".join(stack)
-        d=defaultdict(int)
+            return curr_map
 
-        i=count=0
-        
-        while i<len(formula):
-            if formula[i].isupper():
-                ele=formula[i]
-                if i+1<len(formula) and formula[i+1].islower():
-                    i+=1
-                    ele+=formula[i]
-                count=""
-                while i+1<len(formula) and formula[i+1].isnumeric():
-                    count+=formula[i+1]
-                    i+=1
+        # Parse the formula
+        final_map = parse_formula()
 
-                if count=="":
-                    count=1
-                else:
-                    count=int(count)
-                d[ele]+=count
-            i+=1
-        res=""
-        for key in sorted(d.keys()):
-            res+=key
-            if d[key]!=1:
-                res+=str(d[key])
-        return res
+        # Sort the final map
+        final_map = dict(sorted(final_map.items()))
+
+        # Generate the answer string
+        ans = ""
+        for atom in final_map:
+            ans += atom
+            if final_map[atom] > 1:
+                ans += str(final_map[atom])
+
+        return ans
