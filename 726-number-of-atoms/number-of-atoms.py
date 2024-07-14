@@ -48,7 +48,6 @@ class Solution:
                 d[ele]+=count
             i+=1
         res=""
-        print(d)
         for key in sorted(d.keys()):
             res+=key
             if d[key]!=1:
