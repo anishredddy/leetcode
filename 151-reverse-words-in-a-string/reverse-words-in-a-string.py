@@ -1,24 +1,21 @@
 class Solution:
     def reverseWords(self, s: str) -> str:
+        s=s.strip()
         stack=[]
-        i=0
-        while s[i]==" ":
-            i+=1
-        j=len(s)-1
-        while s[j]==" ":
-            j-=1
-        y=""
-        for x in range(i,j+1):
-            if s[x]==" " and s[x-1]!=" ":
-                stack.append(y)
-                y=""
-            elif x==j:
-                y+=s[x]
-                stack.append(y)
-            elif s[x]!=" ":
-                y+=s[x]
-        res=""
-        while stack:
-            res+=stack.pop()
-            res+=" "
-        return res[:len(res)-1]
+
+        curr_s=""
+        prev=""
+
+        for char in s:
+            if char==" ":
+                if prev==" ":
+                    continue
+                else:
+                    stack.append(curr_s)
+                    curr_s=""
+            else:
+                curr_s+=char
+            prev=char
+        if curr_s!="":
+            stack.append(curr_s)
+        return " ".join(stack[::-1])
