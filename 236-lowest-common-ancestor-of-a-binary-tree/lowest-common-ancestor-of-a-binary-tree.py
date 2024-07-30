@@ -36,8 +36,8 @@ class Solution:
         dfs(root,p,arr1)
         dfs(root,q,arr2)
 
-        print(len(arr1))
-        print(len(arr2))
+        # print(len(arr1))
+        # print(len(arr2))
 
         p1=p2=0
         prev=root
