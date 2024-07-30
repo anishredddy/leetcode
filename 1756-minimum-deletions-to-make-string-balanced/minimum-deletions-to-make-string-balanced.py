@@ -1,21 +1,17 @@
 class Solution:
     def minimumDeletions(self, s: str) -> int:
-        right=[0]*len(s)
-        curr=0
-        for i in range(len(s)-2,-1,-1):
-            if s[i+1]=='a':
-                curr+=1
-            right[i]=curr
-        
-        #found right
-        left=0
+        a_count=0
+        for i in range(len(s)):
+            if s[i]=='a':
+                a_count+=1
+        # print(right)
         res=float('inf')
-
-        print(right)
-
+        left=0
         for i in range(len(s)):
             # print(i,left,left+right[i])
-            res=min(res,left+right[i])
+            if s[i]=='a':
+                a_count-=1
+            res=min(res,left+a_count)
             if s[i]=='b':
                 left+=1
         return res
