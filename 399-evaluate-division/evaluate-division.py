@@ -13,9 +13,6 @@ class Solution:
         res=[]
 
         for num,den in queries:
-            # if num==den:
-            #     res.append(1.0)
-            #     continue
 
             q=deque()
             q.append((num,1))
@@ -25,11 +22,6 @@ class Solution:
             while q:
                 curr_node,curr_cost=q.popleft()
 
-                # if curr_node==den:
-                #     res.append(curr_cost)
-                #     flag=1
-                #     break
-                
                 if curr_node in visited:
                     continue
                 visited.add(curr_node)
