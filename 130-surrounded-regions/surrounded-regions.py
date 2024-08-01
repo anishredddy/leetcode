@@ -20,9 +20,6 @@ class Solution:
             for j in range(cols):
                 if i in rowSet or j in colSet and board[i][j]=='O':
                     dfs(i,j)
-
-        for row in board:
-            print(row)
         
         for r in range(rows):
             for c in range(cols):
