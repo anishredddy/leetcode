@@ -1,24 +1,33 @@
 class Solution:
     def lemonadeChange(self, bills: List[int]) -> bool:
-        change=defaultdict(int)
-        #5 - 0
-        #10 - 5
-        #20 - 5 , 5 ,5 or 10 , 5
-        for bill in bills:
-            print(bill)
-            change[bill]+=1
-            print(change)
-            if bill==10:
-                if change[5]>=1:
-                    change[5]-=1
+        # Count of $5 and $10 bills in hand
+        five_dollar_bills = 0
+        ten_dollar_bills = 0
+
+        # Iterate through each customer's bill
+        for customer_bill in bills:
+            if customer_bill == 5:
+                # Just add it to our count
+                five_dollar_bills += 1
+            elif customer_bill == 10:
+                # We need to give $5 change
+                if five_dollar_bills > 0:
+                    five_dollar_bills -= 1
+                    ten_dollar_bills += 1
                 else:
+                    # Can't provide change, return false
                     return False
-            if bill==20:
-                if change[10]>=1 and change[5]>=1:
-                    change[10]-=1
-                    change[5]-=1
-                elif change[5]>=3:
-                    change[5]-=3
+            else:  # customer_bill == 20
+                # We need to give $15 change
+                if ten_dollar_bills > 0 and five_dollar_bills > 0:
+                    # Give change as one $10 and one $5
+                    five_dollar_bills -= 1
+                    ten_dollar_bills -= 1
+                elif five_dollar_bills >= 3:
+                    # Give change as three $5
+                    five_dollar_bills -= 3
                 else:
+                    # Can't provide change, return false
                     return False
+        # If we've made it through all customers, return true
         return True
