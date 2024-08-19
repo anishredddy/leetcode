@@ -1,22 +1,12 @@
 class Solution:
     def minSteps(self, n: int) -> int:
-        mem={}
-        def helper(count,paste):
-            if (count,paste) in mem:
-                return mem[(count,paste)]
-            if count==n:
-                return 0
-            if count>n:
-                return float('inf')
-            #paste
-            res1=1+helper(count+paste,paste)
+        #1D dp
 
-            #copy and paste
-            res2=2+helper(count+count,count)
+        dp=[float('inf')]*(n+1)
+        dp[1]=0
 
-            mem[(count,paste)]=min(res1,res2)
-
-            return min(res1,res2)
-        if n==1:
-            return 0
-        return 1+helper(1,1)
+        for i in range(2,n+1):
+            for j in range(1,1+(i//2)):
+                if i%j==0:
+                    dp[i]=min(dp[j]+i//j,dp[i])
+        return dp[n]
