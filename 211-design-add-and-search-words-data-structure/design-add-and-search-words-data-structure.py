@@ -17,23 +17,24 @@ class WordDictionary:
         
 
     def search(self, word: str) -> bool:
-        def dfs(j, root):
-            cur = root
+        curr = self.root
+        q = deque([(curr, 0)])
+        
+        while q:
+            currNode, index = q.popleft()
+            if index == len(word):
+                if currNode.word:
+                    return True
+                continue
 
-            for i in range(j, len(word)):
-                c = word[i]
-                if c == ".":
-                    for child in cur.children.values():
-                        if dfs(i + 1, child):
-                            return True
-                    return False
-                else:
-                    if c not in cur.children:
-                        return False
-                    cur = cur.children[c]
-            return cur.word
-
-        return dfs(0, self.root)
+            char = word[index]
+            if char == '.':
+                for childChar, childNode in currNode.children.items():
+                    q.append((childNode, index + 1))
+            elif char in currNode.children:
+                q.append((currNode.children[char], index + 1))
+        
+        return False
 
         
 
