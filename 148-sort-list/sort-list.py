@@ -5,25 +5,44 @@
 #         self.next = next
 class Solution:
     def sortList(self, head: Optional[ListNode]) -> Optional[ListNode]:
-        node_map=defaultdict(list)
-        nodes=[]
 
-        temp=head
-        while temp:
-            node_map[temp.val].append(temp)
-            nodes.append(temp.val)
-            temp=temp.next
-        
-        nodes.sort()
+        # find mid
 
-        head=None
-        dummy=TreeNode(0)
-        prev=dummy
-        while nodes:
-            curr=nodes.pop(0)
-            node=node_map[curr].pop()
-            prev.next=node
-            prev=node
-        prev.next=None
-        return dummy.next
+        if not head or not head.next:
+            return head
+
+        slow, fast = head, head.next
+
+        while fast and fast.next:
+            slow = slow.next
+            fast = fast.next.next
+
+        mid = slow.next
+        slow.next = None
+
+        left = self.sortList(head)
+        right = self.sortList(mid)
+
+        dummyHead = ListNode(0)
+        curr = dummyHead
+
+        while left and right:
+            if left.val<right.val:
+                curr.next = left
+                left = left.next
+            else:
+                curr.next = right
+                right = right.next
             
+            curr = curr.next
+
+        if right:
+            curr.next = right
+        else:
+            curr.next = left
+
+        return dummyHead.next
+
+
+        
+
