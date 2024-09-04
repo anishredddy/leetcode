@@ -19,6 +19,5 @@ class Solution:
                     if (next_x,next_y) in obs:
                         break
                     x,y=next_x,next_y
-                print(x,y)
                 max_dist=max(max_dist,x*x+y*y)
         return max_dist
