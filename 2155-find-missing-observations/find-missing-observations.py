@@ -13,8 +13,7 @@ class Solution:
         if sum_n>n*6 or rem<=0:
             print("hi")
             return []
-        if sum_n%n==0:
-            return [rem]*n
+        
         res=[rem]*n
         for i in range(n):
             while res[i]+1<=6 and quo:
