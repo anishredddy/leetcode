@@ -1,4 +1,3 @@
 class Solution:
     def reverseBits(self, n: int) -> int:
-        num = bin(n)[2:].zfill(32)
-        return int(num[::-1],2)
+        return int(bin(n)[2:].zfill(32)[::-1],2)
