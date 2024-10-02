@@ -2,20 +2,12 @@ class Solution:
     def arrayRankTransform(self, arr: List[int]) -> List[int]:
         new_arr = sorted(set(arr))
 
+        hashMap={}
+        
+        for i in range(len(new_arr)):
+            hashMap[new_arr[i]]=i+1
+        
         for i in range(len(arr)):
-            count=self.binary_search(new_arr,arr[i])
-            arr[i]=count+1
+            arr[i]=hashMap[arr[i]]
+        
         return arr
-
-    def binary_search(self,arr,num):
-        low=0
-        high=len(arr)-1
-        while low<=high:
-            mid=(low+high)//2
-            if arr[mid]==num:
-                return mid
-            elif arr[mid]<num:
-                low=mid+1
-            else:
-                high=mid-1
-        return low
