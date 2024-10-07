@@ -1,17 +1,28 @@
 def z_algo(s: str) -> List[int]: 
     """Z-algorithm
     Return lengths of substrings that are also prefix strings."""
-    ans = [0] * len(s)
-    lo = hi = ii = 0 
-    for i in range(1, len(s)): 
-        if i <= hi: ii = i - lo 
-        if i + ans[ii] <= hi: ans[i] = ans[ii]
-        else: 
-            lo, hi = i, max(hi, i)
-            while hi < len(s) and s[hi] == s[hi-lo]: hi += 1
-            ans[i] = hi - lo 
-            hi -= 1
-    return ans 
+    z=[0]*len(s)
+    l=r=k=0
+    for i in range(len(s)):
+        if i>r:
+            # outside z box
+            l=r=i
+            while r<len(s) and s[r]==s[r-i]:
+                r+=1
+            z[i]=r-l
+            r-=1
+        else:
+            k=i-l
+            if z[k]<r-i+1:
+                z[i]=z[k]
+            else:
+                l=i
+                while r<len(s) and s[r]==s[r-l]:
+                    r+=1
+                #increase size of z-box
+                z[i]=r-l
+                r-=1
+    return z
 
 
 class Solution:
