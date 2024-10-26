@@ -8,14 +8,13 @@ class Solution:
                     print(sett)
                     res=max(res,len(sett)+1)
                 return
+            #no skip
+            if s[start:i] not in sett:
+                sett.add(s[start:i])
+                dfs(sett,i,i+1)
+                sett.remove(s[start:i])
             #skip
             dfs(sett,start,i+1)
-
-            #not skip
-            if s[start:i] not in sett:
-                new_set=sett.copy()
-                new_set.add(s[start:i])
-                dfs(new_set,i,i+1)
         a=set()
         dfs(a,0,1)
         return res
