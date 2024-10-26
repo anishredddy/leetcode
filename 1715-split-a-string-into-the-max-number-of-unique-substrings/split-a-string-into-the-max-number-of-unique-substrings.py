@@ -5,7 +5,7 @@ class Solution:
             nonlocal res
             if i==len(s):
                 if s[start:] not in sett:
-                    print(sett)
+
                     res=max(res,len(sett)+1)
                 return
             #no skip
