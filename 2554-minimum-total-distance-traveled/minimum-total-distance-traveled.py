@@ -1,34 +1,27 @@
 class Solution:
-    def minimumTotalDistance(
-        self, robot: List[int], factory: List[List[int]]
-    ) -> int:
+    def minimumTotalDistance(self, robot: List[int], factory: List[List[int]]) -> int:
         robot.sort()
-        factory.sort(key=lambda x: x[0])
-        factory_positions = []
-        for f in factory:
-            factory_positions.extend([f[0]] * f[1])
-        robot_count = len(robot)
-        factory_count = len(factory_positions)
+        factory.sort(key=lambda x:x[0])
 
-        dp = [[None] * (factory_count + 1) for _ in range(robot_count + 1)]
+        r=len(robot)
+        f=len(factory)
 
-        def _calculate_min_distance(robot_idx: int, factory_idx: int) -> int:
-            if dp[robot_idx][factory_idx] is not None:
-                return dp[robot_idx][factory_idx]
-            if robot_idx == robot_count:
-                dp[robot_idx][factory_idx] = 0
+        @cache
+        def dfs(rob,fac):
+            if rob==r:
                 return 0
-            if factory_idx == factory_count:
-                dp[robot_idx][factory_idx] = int(1e12)
-                return int(1e12)
+            if fac==len(factory):
+                return float('inf')
+            cost=0
+            res=float('inf')
 
-            assign = abs(
-                robot[robot_idx] - factory_positions[factory_idx]
-            ) + _calculate_min_distance(robot_idx + 1, factory_idx + 1)
+            for i in range(factory[fac][1]+1):
+                if rob+i>r:
+                    break
+                if i>0:
+                    cost+=abs(factory[fac][0]-robot[rob+i-1])
+                res=min(res,dfs(rob+i ,fac+1)+cost)
+                
+            return res
 
-            skip = _calculate_min_distance(robot_idx, factory_idx + 1)
-
-            dp[robot_idx][factory_idx] = min(assign, skip)
-            return dp[robot_idx][factory_idx]
-
-        return _calculate_min_distance(0, 0)
+        return dfs(0,0)
