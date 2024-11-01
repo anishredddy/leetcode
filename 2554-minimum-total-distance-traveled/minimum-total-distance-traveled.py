@@ -16,11 +16,11 @@ class Solution:
             res=float('inf')
 
             for i in range(factory[fac][1]+1):
-                if rob+i>r:
+                if rob+i>=r:
+                    res=min(res,cost)
                     break
-                if i>0:
-                    cost+=abs(factory[fac][0]-robot[rob+i-1])
                 res=min(res,dfs(rob+i ,fac+1)+cost)
+                cost+=abs(factory[fac][0]-robot[rob+i])
                 
             return res
 
