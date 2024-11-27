@@ -1,18 +1,12 @@
 class Solution:
     def findChampion(self, n: int, edges: List[List[int]]) -> int:
-        graph=defaultdict(list)
+        indegree=[0]*n
         for u,v in edges:
-            graph[u].append(v)
-        def dfs(i,visited):
-            if i in visited:
-                return
-            visited.add(i)
-            for nei in graph[i]:
-                if nei not in visited:
-                    dfs(nei,visited)
-        for i in range(n):
-            visited=set()
-            dfs(i,visited)
-            if len(visited)==n:
-                return i
-        return -1
+            indegree[v]+=1
+        res=-1
+        for i in range(len(indegree)):
+            if indegree[i]==0:
+                if res!=-1:
+                    return -1
+                res=i
+        return res
